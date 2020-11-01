@@ -59,6 +59,19 @@ const App: React.FC = () => {
           return (
             <Form>
               <FormikField name="name" label="Name" required />
+              <FormikField name="email" label="Email" required />
+              <FormikField
+                name="password"
+                label="Password"
+                required
+                type="password"
+              />
+              <FormikField
+                name="passwordConfirm"
+                label="Confirm Password"
+                required
+                type="password"
+              />
               <FormikSelect
                 name="position"
                 items={positionItems}
