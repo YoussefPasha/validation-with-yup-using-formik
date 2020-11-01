@@ -10,11 +10,17 @@ import "./App.css";
 
 interface FormValues {
   name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
   position: string;
 }
 
 const initialValues: FormValues = {
   name: "",
+  email: "",
+  password: "",
+  passwordConfirm: "",
   position: "",
 };
 
@@ -39,6 +45,9 @@ const positionItems: FormikSelectItem[] = [
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string().min(2, "Too Short!").required("Required"),
+  email: Yup.string().required("Required"),
+  password: Yup.string().required("Required"),
+  passwordConfirm: Yup.string().required("Required"),
   position: Yup.string().required("Required"),
 });
 
