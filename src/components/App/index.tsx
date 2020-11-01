@@ -1,5 +1,11 @@
 import React from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import Button from "@material-ui/core/Button";
+
+import FormikField from "../FormikField";
+import FormikSelect, { FormikSelectItem } from "../FormikSelect";
+
 import "./App.css";
 
 interface FormValues {
@@ -12,36 +18,64 @@ const initialValues: FormValues = {
   position: "",
 };
 
+const positionItems: FormikSelectItem[] = [
+  {
+    label: "Front End",
+    value: "front_end",
+  },
+  {
+    label: "Back End",
+    value: "back_end",
+  },
+  {
+    label: "Dev Ops",
+    value: "dev_ops",
+  },
+  {
+    label: "QA",
+    value: "qa",
+  },
+];
+
+const SignupSchema = Yup.object().shape({
+  name: Yup.string().min(2, "Too Short!").required("Required"),
+  position: Yup.string().required("Required"),
+});
+
 const App: React.FC = () => {
   const handleSubmit = (values: FormValues): void => {
     alert(JSON.stringify(values));
   };
+
   return (
     <div className="App">
       <h1>Sign Up</h1>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-        {(props) => {
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={SignupSchema}
+      >
+        {({ dirty, isValid }) => {
           return (
             <Form>
-              <div>
-                <label>Name: </label>
-                <Field autoComplete="off" name="name" as="input"></Field>
-              </div>
-              <div>
-                <label>Position: </label>
-                <Field
-                  autoComplete="off"
-                  name="position"
-                  placeholder="choose your position"
-                  as="select"
-                >
-                  <option value="front-end">Front End</option>
-                  <option value="back-end">Back End</option>
-                  <option value="ful-stack">Ful Stack</option>
-                  <option value="mern-stack">MERN stack</option>
-                </Field>
-              </div>
-              <button type="submit">Submit</button>
+              <FormikField name="name" label="Name" required />
+              <FormikSelect
+                name="position"
+                items={positionItems}
+                label="Position"
+                required
+              />
+              <br />
+              <br />
+              <Button
+                className="submitButton"
+                variant="contained"
+                color="primary"
+                disabled={!dirty || !isValid}
+                type="submit"
+              >
+                Submit
+              </Button>
             </Form>
           );
         }}
@@ -49,4 +83,5 @@ const App: React.FC = () => {
     </div>
   );
 };
+
 export default App;
