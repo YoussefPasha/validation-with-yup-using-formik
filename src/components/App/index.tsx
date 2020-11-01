@@ -58,6 +58,7 @@ const numericalRegex = /(?=.*[0-9])/;
 const SignupSchema = Yup.object().shape({
   name: Yup.string().min(2, "Too Short!").required("Required"),
   email: Yup.string()
+    .lowercase()
     .email("Must be a valid email")
     .notOneOf(emailAddresses, "Email Already Taken")
     .required("Required"),
