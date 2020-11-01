@@ -51,13 +51,22 @@ const emailAddresses = [
   "test4@gmail.com",
 ];
 
+const lowerCaseRegex = /(?=.*[a-z])/;
+const upperCaseRegex = /(?=.*[A-Z])/;
+const numericalRegex = /(?=.*[0-9])/;
+
 const SignupSchema = Yup.object().shape({
   name: Yup.string().min(2, "Too Short!").required("Required"),
   email: Yup.string()
     .email("Must be a valid email")
     .notOneOf(emailAddresses, "Email Already Taken")
     .required("Required"),
-  password: Yup.string().required("Required"),
+  password: Yup.string()
+    .matches(lowerCaseRegex, "at least one character lowercase required")
+    .matches(upperCaseRegex, "at least one character uppercase required")
+    .matches(numericalRegex, "at least one number required")
+    .min(8, "Minimum 8 Characters!")
+    .required("Required"),
   passwordConfirm: Yup.string().required("Required"),
   position: Yup.string().required("Required"),
 });
