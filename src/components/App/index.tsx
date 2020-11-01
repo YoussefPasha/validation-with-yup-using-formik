@@ -67,7 +67,9 @@ const SignupSchema = Yup.object().shape({
     .matches(numericalRegex, "at least one number required")
     .min(8, "Minimum 8 Characters!")
     .required("Required"),
-  passwordConfirm: Yup.string().required("Required"),
+  passwordConfirm: Yup.string()
+    .required("Required")
+    .oneOf([Yup.ref("password")], "Password must be the same"),
   position: Yup.string().required("Required"),
 });
 
