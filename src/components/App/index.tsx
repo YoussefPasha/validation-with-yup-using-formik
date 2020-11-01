@@ -43,9 +43,20 @@ const positionItems: FormikSelectItem[] = [
   },
 ];
 
+const emailAddresses = [
+  "test@gmail.com",
+  "test1@gmail.com",
+  "test2@gmail.com",
+  "test3@gmail.com",
+  "test4@gmail.com",
+];
+
 const SignupSchema = Yup.object().shape({
   name: Yup.string().min(2, "Too Short!").required("Required"),
-  email: Yup.string().required("Required"),
+  email: Yup.string()
+    .email("Must be a valid email")
+    .notOneOf(emailAddresses, "Email Already Taken")
+    .required("Required"),
   password: Yup.string().required("Required"),
   passwordConfirm: Yup.string().required("Required"),
   position: Yup.string().required("Required"),
